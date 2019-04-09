@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+class huffm//树节点类 
+{
+	public:
+	int wi;//权值
+	char data;
+	int parent,Lchild,Rchild;//父 、左右子 
+	 
+ };
+int main()
+{
+	int n;//权个数
+	cin>>n;
+	int m=2*n-1;//树节点数 
+	huffm HT[m+1];
+	int i,j,p1,p2;
+	int w,s1,s2;
+	for(i=1;i<=m;i++)
+	{
+		HT[i].wi=0;
+		HT[i].parent=0;
+		HT[i].Lchild=0;
+		HT[i].Rchild=0;
+	}
+	for(i=1;i<=n;i++)//输入权值 
+	{
+		cin>>w;
+		HT[i].wi=w;
+	}
+	for(i=n+1;i<=m;i++)//进行n-1循环，产生n-1个节点，构造H树 
+	{
+		p1=p2=0;//p1,p2为所选权值最小的根节点序号 
+		s1=s2=100000;
+		for(j=1;j<=i-1;j++)//从HT[1]~HT[i-1]中选取两个节点最小的根节点 
+		if(HT[j].parent==0)
+		if(HT[j].wi<s1)
+		{
+			s2=s1;//以j节点为第一个权值最小的根节点 
+			s1=HT[j].wi;
+			p2=p1;
+			p1=j;
+		}
+		else if(HT[j].wi<s2)
+		{
+			s2=HT[j].wi;//以根节点为第二个权值最小的根节点 
+			p2=j;
+		}
+	HT[p1].parent=HT[p2].parent=i;//构建新树 
+	HT[i].Lchild=p1;
+	HT[i].Rchild=p2;
+	HT[i].wi=HT[p1].wi+HT[p2].wi;
+	}
+	for(i=1;i<=m;i++)//输出新树，<格式 ：  权值   父   左子   右子> 
+	{
+		cout<<i<<"   "<<HT[i].wi<<"   "<<HT[i].parent<<"   "<<HT[i].Lchild<<"   "<<HT[i].Rchild<<endl;
+	}
+ } 
