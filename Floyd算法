@@ -1,0 +1,51 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int m;//点的个数
+	cout<<"请输入顶点个数：";
+	cin>>m; 
+	int a[m][m];//图的矩阵，a[i][j]<∞,相连且为权值，a[i][j]=∞,不相邻。
+	cout<<"请输入各顶点间的权值：" <<endl; 
+	for(int i=0;i<m;i++)//初始化a 
+	{
+		for(int j=0;j<m;j++)
+		{
+			cin>>a[i][j];
+		}
+	}
+	int path[m][m];
+	for(int i=0;i<m;i++)//初始化path 
+	{
+    	for(int j=0;j<m;j++)
+	    {
+	    	if(a[i][j]>=0)
+	    	path[i][j]=j;
+	    	else 
+	    	path[i][j]=-1;
+		
+	    } 
+	} 
+	for(int k=0;k<m;k++)//进行m次试探 
+	for(int i=0;i<m;i++)
+	for(int j=0;j<m;j++)
+	{
+		if(a[i][j]>a[i][k]+a[k][j])
+		{
+			a[i][j]=a[i][k]+a[k][j];
+			path[i][j]=path[i][k];
+		}
+	}
+	int max=a[0][0];
+	for(int i=0;i<m;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			if(max<a[i][j])
+			max=a[i][j];
+		}
+	}
+	cout<<"其间最短路径的最大值:"; 
+	cout<<max;
+	 
+  }  
